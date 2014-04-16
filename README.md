@@ -1,0 +1,2 @@
+#About jk_platform#
+In order to develop and deliver our Web application projects efficiently, I develop this development platform. It contains several universal modules，such as users management, authentication, common dictionary, workflow, report，SMS, email and so on.
