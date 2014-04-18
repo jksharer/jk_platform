@@ -1,28 +1,20 @@
 class AgenciesController < ApplicationController
   before_action :set_agency, only: [:show, :edit, :update, :destroy]
 
-  # GET /agencies
-  # GET /agencies.json
   def index
     @agencies = Agency.all
   end
 
-  # GET /agencies/1
-  # GET /agencies/1.json
   def show
   end
 
-  # GET /agencies/new
   def new
     @agency = Agency.new
   end
 
-  # GET /agencies/1/edit
   def edit
   end
 
-  # POST /agencies
-  # POST /agencies.json
   def create
     @agency = Agency.new(agency_params)
 

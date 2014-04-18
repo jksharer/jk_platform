@@ -1,52 +1,59 @@
 @import "bootstrap";
 
-header {
-	border: 2px solid #000;
-	margin-bottom: 20px;
-	#banner {
-		background: #9c9;
-		padding: 10px;
+$backColor: rgb(55,155,215);
+$fontColor: #fff;
+
+#banner {
+	height: 38px;
+	background: $backColor;
+
+	#logo {
+		margin: 10px;
+		float: left;
 		font-size: 20px;
-		color: #282;
-		text-align: left;
-	}
-	ul {
-		float: right;
-		li {
-			list-style: none;
-			float: left;
+		&:link, &:hover, &:active, &:visited {
+			color: $fontColor;
+			background: none;		
+			text-decoration:none	
 		}
 	}
-}
 
-#logo {
-	float: left;
-}
-
-#columns {
-	#side {
+	#nav-left {
+		font-size: 13px;
 		float: left;
-		padding: 1em 2em;
-		width: 10em;
-		background: white;
-		border-right: 2px solid #9c9;
+		margin-left: 1em;
+		padding: 0;
 
-		ul {
-			padding: 0;
-
-			li {
-				list-style: none;
-				a {
-					font-size: small;
-					color: #282;
-				}
+		a{
+			color: $fontColor;
+			&:hover {
+				background: #E0E0E0;	
 			}
 		}
-	}
+		
+		.dropdown-menu li a{
+			color: #000;
+		}
+	}	
 
-	#main {
-		margin-left: 15em;
-		padding: 2em;
-		background: white;
+	#nav-right {
+		color: $fontColor;
+		float: right;
+		margin: 10px;
+
+		li {
+			font-size: 13px;
+			list-style: none;
+			float: left;
+			margin-left: 0.5em;
+		}
+
+		a {
+			color: $fontColor;
+			&:link, &:hover, &:active, &:visited {
+				background: none;
+				text-decoration: none;
+			}	
+		}
 	}
 }

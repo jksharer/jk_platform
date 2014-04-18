@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>JK Plaform</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body class="<%= controller.controller_name %>">
-	<%= render 'layouts/header' %>
-	<div id="columns">
-		<div id="side">
-			<ul class="list-group">
-				<li class="list-group-item"><a href="#">首页</a></li>
-				<li><a href="#">组织机构</a></li>
-				<li><a href="#">用户权限</a></li>
-				<li><a href="#">报表</a></li>
-				<li><a href="#">工作流</a></li>
-			</ul>	
+	<head>
+	  <title>基于Rails的企业应用开发平台</title>
+	  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" =>true %>
+	  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+	  <%= csrf_meta_tags %>
+	</head>
+	<body class="<%= controller.controller_name %>">
+		<%= render 'layouts/header' %>
+		<div class="container">
+			<%= yield %>
 		</div>
-		<div id="main">
-			<%= yield %>		
-		</div>
-	</div>
-</body>
+	</body>
 </html>
