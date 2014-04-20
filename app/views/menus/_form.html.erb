@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@menu) do |f| %>
+      <%= render 'shared/error_messages', object: f.object%>
+
+      <div class="field">
+        <%= f.label :name, "菜单名称" %><br>
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+      <div class="field">
+        <%= f.label :url, "URL地址" %><br>
+        <%= f.text_field :url, class: "form-control" %>
+      </div>
+      <div class="field">
+        <%= f.label :parent_menu, "上级菜单" %>
+        <%= f.select(:parent_menu, Menu.all.map {|menu| menu.name},
+          {prompt: "根菜单"}, {class: "form-control"}) %>  
+      </div>  
+
+      <div class="field">
+        <%= f.label :status, "启用状态" %><br>
+        <%= f.number_field :status, class: "form-control" %>
+      </div>
+      <div class="field">
+        <%= f.label :display_order, "排序" %><br>
+        <%= f.number_field :display_order, class: "form-control" %>
+      </div>
+      <div class="actions">
+        <%= f.submit "保  存", class: "btn btn-large btn-primary" %>
+      </div>
+    <% end %>    
+  </div>
+</div>

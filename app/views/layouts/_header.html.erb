@@ -2,20 +2,22 @@
 	<%= link_to 'JK-Platform', "#", id: "logo" %>
   
   <ul id="nav-left" class="nav nav-pills">
-   <li><%= link_to "首页", root_url %></li>
-   <li class="dropdown one-level">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        用户权限<span class="caret"></span>
-      </a>
-      <ul class="dropdown-menu">
-         <li><a href="#">用户</a></li>
-         <li><%= link_to "组织机构", agencies_path%></a></li>
-         <li><a href="#">菜单</a></li>
-         <li><a href="#">角色</a></li>
-         <li class="divider"></li>
-         <li><a href="#">修改密码</a></li>
-      </ul>
-   </li>
+    <% Menu.where(parent_menu_id: nil).order('display_order asc').each do |parent| %>
+      <% if parent.sub_menus.count > 0 %>
+        <li class="dropdown one-level">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <%= parent.name %><span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+             <% parent.sub_menus.order('display_order asc').each do |sub| %> 
+               <li><%= link_to sub.name, sub.url %></li>             
+             <% end %>
+          </ul>
+        </li>   
+      <% elsif %>
+        <li><%= link_to parent.name, parent.url %></li>
+      <% end %>
+    <% end %>
   </ul>	
 
   <nav id="nav-right">
