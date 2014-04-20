@@ -2,7 +2,7 @@ class AgenciesController < ApplicationController
   before_action :set_agency, only: [:show, :edit, :update, :destroy]
 
   def index
-    @agencies = Agency.all
+    @agencies = Agency.order('name asc').page(params[:page]).per_page(8)
   end
 
   def show
@@ -20,11 +20,14 @@ class AgenciesController < ApplicationController
 
     respond_to do |format|
       if @agency.save
-        format.html { redirect_to @agency, notice: 'Agency was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @agency }
+        format.html { redirect_to agencies_path, 
+          notice: 'Agency was successfully created.' }
+        format.json { render action: 'show', 
+          status: :created, location: @agency }
       else
         format.html { render action: 'new' }
-        format.json { render json: @agency.errors, status: :unprocessable_entity }
+        format.json { render json: @agency.errors, 
+          status: :unprocessable_entity }
       end
     end
   end
@@ -34,7 +37,8 @@ class AgenciesController < ApplicationController
   def update
     respond_to do |format|
       if @agency.update(agency_params)
-        format.html { redirect_to @agency, notice: 'Agency was successfully updated.' }
+        format.html { redirect_to agencies_path, 
+          notice: 'Agency was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -46,6 +50,9 @@ class AgenciesController < ApplicationController
   # DELETE /agencies/1
   # DELETE /agencies/1.json
   def destroy
+    @agency.lower_agencies.each do |agency|
+      agency.higher_agency = nil
+    end
     @agency.destroy
     respond_to do |format|
       format.html { redirect_to agencies_url }
@@ -61,6 +68,8 @@ class AgenciesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def agency_params
-      params.require(:agency).permit(:name)
+      ps = params.require(:agency).permit(:name, :description, :higher_agency)
+      ps[:higher_agency] = Agency.find_by(name: ps[:higher_agency])
+      return ps
     end
 end

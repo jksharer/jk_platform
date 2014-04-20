@@ -1,21 +1,27 @@
-<%= form_for(@agency) do |f| %>
-  <% if @agency.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@agency.errors.count, "error") %> prohibited this agency from being saved:</h2>
-
-      <ul>
-      <% @agency.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for @agency do |f| %>
+      <%= render 'shared/error_messages', object: f.object%>
+    
+      <div class="field">
+        <%= f.label :name, "机构名称" %>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+      
+      <div class="field">
+      <%= f.label :description, "描述" %>
+      <%= f.text_field :description, class: 'form-control' %>
+      </div>
+      
+      <div class="field">
+      <%= f.label :higher_agency, "上级机构" %>
+      <%= f.select(:higher_agency, Agency.all.map {|a| a.name},
+        {prompt: "上级机构"}, {class: "form-control"}) %>
+      
+      </div>
+      
+      <%= f.submit "保  存", class: "btn btn-large btn-primary" %>  
+  
+    <% end %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

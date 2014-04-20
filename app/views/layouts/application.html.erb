@@ -9,6 +9,9 @@
 	<body class="<%= controller.controller_name %>">
 		<%= render 'layouts/header' %>
 		<div class="container">
+      <% if notice %>
+  			<p id="notice"><%= notice %></p>
+			<% end %>
 			<%= yield %>
 		</div>
 	</body>

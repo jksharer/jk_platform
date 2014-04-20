@@ -1,10 +1,10 @@
-<h1>Listing agencies</h1>
-
-<table>
+<%= link_to '新增', new_agency_path, class:"btn btn-primary btn-lg" %>
+<table class="table table-striped table-hover">
   <thead>
     <tr>
-      <th>Name</th>
-      <th></th>
+      <th>名称</th>
+      <th>描述</th>
+      <th>上级机构</th>
       <th></th>
       <th></th>
     </tr>
@@ -13,15 +13,14 @@
   <tbody>
     <% @agencies.each do |agency| %>
       <tr>
-        <td><%= agency.name %></td>
-        <td><%= link_to 'Show', agency %></td>
-        <td><%= link_to 'Edit', edit_agency_path(agency) %></td>
-        <td><%= link_to 'Destroy', agency, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to agency.name, edit_agency_path(agency) %></td>
+        <td><%= agency.description %></td>
+        <td><%= agency.higher_agency.nil?? "" : agency.higher_agency.name %></td>
+        <td><%= link_to 'Destroy', agency, method: :delete, 
+          data: { confirm: 'Are you sure?' } %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Agency', new_agency_path %>
+<%= will_paginate @agencies%>
