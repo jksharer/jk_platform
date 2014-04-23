@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@user) do |f| %>
+      <%= render 'shared/error_messages', object: f.object%>
+
+      <div class="field">
+        <%= f.label :username, "用户名" %><br>
+        <%= f.text_field :username, class: "form-control" %>
+      </div>
+      
+      <div class="field">
+        <%= f.label :agency, "所属机构" %><br>
+        <%= f.select(:agency, Agency.all.map {|agency| agency.name},
+          { prompt: "所属机构", selected: (@user.agency.nil?? Agency.first.name : @user.agency.name) },
+          { class: "form-control" }) %>
+      </div>
+
+      <div class="field">
+        <%= label_tag "用户角色:" %><br>
+        <div class="all_roles">
+          <% Role.all.each do |role| %>
+            <%= check_box_tag "roles_of_user[]", role.id, 
+                @user.roles.include?(role) %>
+            <%= label_tag role.name %>      
+          <% end %>  
+        </div>
+      </div>  
+
+      <div class="field">
+        <%= f.label :password, "登陆密码" %><br>
+        <%= f.password_field :password, class: "form-control" %>
+      </div>
+      <div>
+        <%= f.label :password_confirmation, "密码确认" %><br>
+        <%= f.password_field :password_confirmation, class: "form-control" %>
+      </div>
+      
+      <div class="actions">
+        <%= f.submit "保  存", class: "btn btn-large btn-primary" %>
+        <%= link_to '返  回', roles_path, class: "btn btn-large btn-default navbtn" %>
+      </div>
+    <% end %>
+  </div>
+</div>  

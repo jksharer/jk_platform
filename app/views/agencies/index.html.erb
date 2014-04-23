@@ -1,4 +1,4 @@
-<%= link_to '新 增', new_agency_path, class:"btn btn-primary btn-lg" %>
+<%= link_to '新 增', new_agency_path, class:"btn btn-primary btn-large" %>
 <table class="table table-striped table-hover">
   <thead>
     <tr>
@@ -15,10 +15,7 @@
       <tr>
         <td><%= link_to agency.name, edit_agency_path(agency) %></td>
         <td><%= agency.description %></td>
-        <td><%= agency.higher_agency.nil?? "" : agency.higher_agency.name %></td>
-        <td><%= link_to 'Destroy', agency, method: :delete, 
-          data: { confirm: 'Are you sure?' } %>
-        </td>
+        <td><%= agency.higher_agency.nil?? "根组织结构" : agency.higher_agency.name %></td>
       </tr>
     <% end %>
   </tbody>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140420102422) do
+ActiveRecord::Schema.define(version: 20140423012337) do
 
   create_table "agencies", force: true do |t|
     t.string   "name"
@@ -30,5 +30,43 @@ ActiveRecord::Schema.define(version: 20140420102422) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "menus_roles", id: false, force: true do |t|
+    t.integer  "menu_id"
+    t.integer  "role_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "menus_roles", ["menu_id", "role_id"], name: "index_menus_roles_on_menu_id_and_role_id", unique: true
+  add_index "menus_roles", ["menu_id"], name: "index_menus_roles_on_menu_id"
+  add_index "menus_roles", ["role_id"], name: "index_menus_roles_on_role_id"
+
+  create_table "roles", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "username"
+    t.string   "password_digest"
+    t.integer  "agency_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["agency_id"], name: "index_users_on_agency_id"
+
+  create_table "users_roles", id: false, force: true do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users_roles", ["role_id"], name: "index_users_roles_on_role_id"
+  add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", unique: true
+  add_index "users_roles", ["user_id"], name: "index_users_roles_on_user_id"
 
 end
