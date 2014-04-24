@@ -2,14 +2,14 @@
 	<%= link_to 'JK-Platform', "#", id: "logo" %>
   
   <ul id="nav-left" class="nav nav-pills">
-    <% Menu.where(parent_menu_id: nil).order('display_order asc').each do |parent| %>
-      <% if parent.sub_menus.count > 0 %>
+    <% current_user.one_level_menus.each do |parent| %>
+      <% if current_user.sub_menus(parent).count > 0 %>
         <li class="dropdown one-level">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <%= parent.name %><span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-             <% parent.sub_menus.order('display_order asc').each do |sub| %> 
+             <% current_user.sub_menus(parent).each do |sub| %> 
                <li><%= link_to sub.name, sub.url %></li>             
              <% end %>
           </ul>
@@ -22,7 +22,7 @@
 
   <nav id="nav-right">
     <ul>
-    	<li>欢迎您 张凯</li> 
+    	<li>欢迎您 <%= current_user.username %></li> 
     	<li>|</li> 
       <li>
       	<%= link_to "English", "#" %>
@@ -30,7 +30,7 @@
       <li>|</li>
 			<li><%= link_to "帮助", "#" %></li>
 			<li>|</li> 
-			<li><%= link_to "注销", "#" %></li>
+			<li><%= link_to "注销", "/logout", method: "delete" %></li>
     </ul>
 	</nav>
 </div>

@@ -30,6 +30,13 @@ h2 {
   font-weight: normal;
 }
 
+#notice {
+  color: green;
+}
+.alert {
+	color: red;
+}
+
 table {
 	margin-top: 10px;
 }
@@ -97,10 +104,6 @@ p {
 div.container {
 	margin-top: 2em;
 	width: 70%;
-}
-
-#notice {
-  color: green;
 }
 
 @mixin box_sizing {
