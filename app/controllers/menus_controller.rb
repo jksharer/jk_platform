@@ -3,7 +3,7 @@ class MenusController < ApplicationController
   before_action :set_menu, only: [:show, :edit, :update, :destroy]
   
   def index
-    @menus = Menu.where(parent_menu_id: nil).order('display_order asc').page(params[:page]).per_page(5)
+    @menus = Menu.where(parent_menu_id: nil).order('display_order asc')
   end
 
   def show
