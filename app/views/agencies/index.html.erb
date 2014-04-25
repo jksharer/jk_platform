@@ -4,9 +4,8 @@
     <tr>
       <th>名称</th>
       <th>描述</th>
-      <th>上级机构</th>
-      <th></th>
-      <th></th>
+      <th>部门数量</th>
+      <th>用户数量</th>
     </tr>
   </thead>
 
@@ -15,7 +14,8 @@
       <tr>
         <td><%= link_to agency.name, edit_agency_path(agency) %></td>
         <td><%= agency.description %></td>
-        <td><%= agency.higher_agency.nil?? "根组织结构" : agency.higher_agency.name %></td>
+        <td><%= agency.departments.count %></td>
+        <td><%= agency.users.count %></td>
       </tr>
     <% end %>
   </tbody>

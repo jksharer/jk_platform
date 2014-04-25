@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   belongs_to :agency
+  belongs_to :department
   has_secure_password
 
   validates :username, presence: true, uniqueness: true, length: { maximum: 20 }

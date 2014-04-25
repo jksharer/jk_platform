@@ -13,12 +13,12 @@
       <%= f.text_field :description, class: 'form-control' %>
       </div>
       
-      <div class="field">
+      <!-- <div class="field">
       <%= f.label :higher_agency, "上级机构" %>
       <%= f.select(:higher_agency, Agency.all.map {|a| a.name},
         {prompt: "上级机构"}, {class: "form-control"}) %>
       
-      </div>
+      </div> -->
       
       <%= f.submit "保  存", class: "btn btn-large btn-primary" %>  
   

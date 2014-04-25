@@ -6,4 +6,5 @@ class Agency < ActiveRecord::Base
 	belongs_to :higher_agency, class_name: "Agency"
 
 	has_many :users
+	has_many :departments
 end

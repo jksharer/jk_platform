@@ -1,4 +1,6 @@
 JkPlatform::Application.routes.draw do
+  resources :departments
+
   root 'agencies#index'
 
   resources :roles

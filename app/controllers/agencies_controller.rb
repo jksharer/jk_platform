@@ -33,8 +33,6 @@ class AgenciesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /agencies/1
-  # PATCH/PUT /agencies/1.json
   def update
     respond_to do |format|
       if @agency.update(agency_params)
@@ -49,14 +47,7 @@ class AgenciesController < ApplicationController
   end
 
   def destroy
-    # if @agency.users.size > 0 
-    #   redirect_to agencies_url, 
-    #     notice: "The Agency has some users associated, you can't destroy it."
-    # end
-    # @agency.lower_agencies.each do |agency|
-    #   agency.higher_agency = nil
-    # end
-    # @agency.destroy
+    # 不允许删除机构
     respond_to do |format|
       format.html { redirect_to agencies_url, 
         notice: "The rule is anyone CAN'T destroy Agency." }
@@ -70,8 +61,6 @@ class AgenciesController < ApplicationController
     end
 
     def agency_params
-      ps = params.require(:agency).permit(:name, :description, :higher_agency)
-      ps[:higher_agency] = Agency.find_by(name: ps[:higher_agency])
-      return ps
+      params.require(:agency).permit(:name, :description)
     end
 end

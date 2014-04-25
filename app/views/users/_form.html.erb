@@ -10,10 +10,16 @@
       
       <div class="field">
         <%= f.label :agency, "所属机构" %><br>
-        <%= f.select(:agency, Agency.all.map {|agency| agency.name},
-          { prompt: "所属机构", selected: (@user.agency.nil?? Agency.first.name : @user.agency.name) },
-          { class: "form-control" }) %>
+        <%= label_tag :agency, current_user.agency.name, class: "form-control" %>
       </div>
+
+      <div class="field">
+        <%= f.label :department, "所在部门" %><br>
+        <%= f.select(:department, 
+          Department.where(agency: current_user.agency).map {|department| department.name},
+          { prompt: "选择部门", selected: (@user.department.nil?? nil : @user.department.name) },
+          { class: "form-control" }) %>
+      </div>      
 
       <div class="field">
         <%= label_tag "用户角色:" %><br>

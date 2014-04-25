@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140423012337) do
+ActiveRecord::Schema.define(version: 20140425021041) do
 
   create_table "agencies", force: true do |t|
     t.string   "name"
@@ -20,6 +20,17 @@ ActiveRecord::Schema.define(version: 20140423012337) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "departments", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "agency_id"
+    t.integer  "parent_department_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "departments", ["agency_id"], name: "index_departments_on_agency_id"
 
   create_table "menus", force: true do |t|
     t.string   "name"
@@ -54,9 +65,11 @@ ActiveRecord::Schema.define(version: 20140423012337) do
     t.integer  "agency_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "department_id"
   end
 
   add_index "users", ["agency_id"], name: "index_users_on_agency_id"
+  add_index "users", ["department_id"], name: "index_users_on_department_id"
 
   create_table "users_roles", id: false, force: true do |t|
     t.integer  "user_id"

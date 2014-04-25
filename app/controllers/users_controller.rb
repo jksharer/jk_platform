@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.agency = current_user.agency
     @user.role_ids = params[:roles_of_user]
 
     respond_to do |format|
@@ -39,7 +40,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to users_url, 
-          notice: 'User was successfully updated.' }
+          notice: 'User was successfully updated. ' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -63,8 +64,9 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      ps = params.require(:user).permit(:username, :password, :password_confirmation, :agency)
-      ps[:agency] = Agency.find_by(name: ps[:agency])
+      ps = params.require(:user).
+        permit(:username, :password, :password_confirmation, :department)
+      ps[:department] = Department.find_by(name: ps[:department], agency: current_user.agency)
       return ps
     end
 end
