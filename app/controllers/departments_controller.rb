@@ -4,7 +4,6 @@ class DepartmentsController < ApplicationController
 
   def index
     @departments = Department.order('name asc')
-
   end
 
   def show

@@ -36,8 +36,7 @@ module SessionsHelper
   		end
   	end
   	redirect_to login_url, 
-  		notice: "Sorry, the current user don't have the permission, 
+  		notice: "Sorry, the current user does not have the permission, 
   							please use other user to access."	
   end
-
 end

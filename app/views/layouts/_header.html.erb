@@ -22,13 +22,13 @@
 
   <nav id="nav-right">
     <ul>
-    	<li>欢迎您 <%= current_user.username %></li> 
+    	<li>欢迎您 <%= link_to current_user.username, my_path %></li> 
     	<li>|</li> 
       <li>
       	<%= link_to "English", "#" %>
       </li> 
       <li>|</li>
-			<li><%= link_to "帮助", "#" %></li>
+			<li><%= link_to "帮助", about_path %></li>
 			<li>|</li> 
 			<li><%= link_to "注销", "/logout", method: "delete" %></li>
     </ul>

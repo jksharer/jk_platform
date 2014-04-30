@@ -1,0 +1,25 @@
+$div_border: 1px ridge rgb(55,155,215);
+div.span8 {
+	float: left;
+	width: 60%;	
+
+	.left {
+		margin:5px;
+		padding: 10px;		
+	}
+}
+
+div.span4 {
+	margin-left: 61%;
+
+	.right {
+		margin:5px;
+		padding: 10px;		
+	}	
+}
+
+.span4 > div, .span8 > div {
+	-moz-box-shadow: 0 0 2px rgb(55,155,215);
+  -webkit-box-shadow: 0 0 2px rgb(55,155,215);
+  box-shadow: 0 0 2px rgb(55,155,215);
+}
