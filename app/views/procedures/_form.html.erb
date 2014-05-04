@@ -1,0 +1,10 @@
+<%= form_for(@procedure) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="field">
+    <%= f.label :name, "流程名称" %><br>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+  <div class="actions">
+    <%= f.submit "保  存", class: "btn btn-large btn-primary" %>
+  </div>
+<% end %>

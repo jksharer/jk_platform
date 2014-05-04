@@ -1,4 +1,5 @@
 JkPlatform::Application.routes.draw do
+
   root 'main_pages#home'
 
   resources :departments
@@ -7,6 +8,9 @@ JkPlatform::Application.routes.draw do
   resources :menus
   resources :agencies
   resources :sessions, only: [:new, :create, :destroy]
+  resources :announcements
+  resources :steps
+  resources :procedures
   
   match '/login',  to: 'sessions#new',        via: 'get'
   match '/logout', to: 'sessions#destroy',    via: 'delete'
@@ -18,4 +22,8 @@ JkPlatform::Application.routes.draw do
   match '/change_password',   to: 'main_pages#change_password', via: 'get'
   match '/update_password',   to: 'main_pages#update_password', via: 'post'
 
+  match 'handle_workflow',    to: 'announcements#handle_workflow', via: 'post'
+  match 'handle_workflow',    to: 'announcements#handle_workflow', via: 'get'
+  match 'handle_review',      to: 'announcements#handle_review',   via: 'get'
+  match 'being_reviewed',     to: 'announcements#being_reviewed',  via: 'get'
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140425021041) do
+ActiveRecord::Schema.define(version: 20140502163245) do
 
   create_table "agencies", force: true do |t|
     t.string   "name"
@@ -20,6 +20,21 @@ ActiveRecord::Schema.define(version: 20140425021041) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "announcements", force: true do |t|
+    t.string   "name"
+    t.string   "announcement_type"
+    t.text     "content"
+    t.string   "workflow_state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "procedure_id"
+    t.string   "state",             default: "initial"
+  end
+
+  add_index "announcements", ["procedure_id"], name: "index_announcements_on_procedure_id"
+  add_index "announcements", ["user_id"], name: "index_announcements_on_user_id"
 
   create_table "departments", force: true do |t|
     t.string   "name"
@@ -53,11 +68,41 @@ ActiveRecord::Schema.define(version: 20140425021041) do
   add_index "menus_roles", ["menu_id"], name: "index_menus_roles_on_menu_id"
   add_index "menus_roles", ["role_id"], name: "index_menus_roles_on_role_id"
 
+  create_table "procedures", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reviews", force: true do |t|
+    t.string   "model_type"
+    t.integer  "object_id"
+    t.integer  "step_id"
+    t.string   "state",      default: "initial"
+    t.string   "comment"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reviews", ["object_id"], name: "index_reviews_on_object_id"
+  add_index "reviews", ["step_id"], name: "index_reviews_on_step_id"
+
   create_table "roles", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "steps", force: true do |t|
+    t.integer  "view_order"
+    t.integer  "user_id"
+    t.integer  "procedure_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "steps", ["procedure_id"], name: "index_steps_on_procedure_id"
+  add_index "steps", ["user_id"], name: "index_steps_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "username"

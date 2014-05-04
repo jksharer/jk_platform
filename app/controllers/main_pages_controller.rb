@@ -5,6 +5,10 @@ class MainPagesController < ApplicationController
   	@roles = Role.all
   	@users = User.all
   	@departments = Department.order('name asc')
+
+    @announcements = Announcement.where(workflow_state: "accepted").order('created_at DESC').
+        page(params[:page]).per_page(8)
+    
   end
 
   def about

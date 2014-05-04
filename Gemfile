@@ -1,8 +1,13 @@
+if RUBY_VERSION =~ /1.9/ # assuming you're running Ruby ~1.9
+  Encoding.default_external = Encoding::UTF_8
+  Encoding.default_internal = Encoding::UTF_8
+end
+
 source 'https://rubygems.org'
 ruby '1.9.3'
 
 gem 'rails', '4.0.2'
-gem 'workflow'
+gem 'workflow', '1.1.0'
 gem 'bootstrap-sass', '3.1.1'
 gem 'sprockets', '=2.11.0'
 gem 'sass-rails', '4.0.1'

@@ -1,7 +1,10 @@
 class User < ActiveRecord::Base
+  has_secure_password
+
   belongs_to :agency
   belongs_to :department
-  has_secure_password
+  has_many :steps
+  has_many :announcements
 
   validates :username, presence: true, uniqueness: true, length: { maximum: 20 }
   validates :password, length: { in: 3..20 }

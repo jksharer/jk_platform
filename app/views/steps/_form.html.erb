@@ -1,0 +1,18 @@
+<%= form_for(@step) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+
+  <div class="field">
+    <%= f.label :view_order, "顺序" %><br>
+    <%= f.number_field :view_order, class: "form-control" %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id, "审批人" %>
+    <%= f.select(:user_id, options_for_select(User.all.map { |user| [user.username, user.id] }),
+      {}, { class: "form-control" }) %>
+    <%= hidden_field_tag(:procedure_id, @procedure.id) %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "保  存", class: "btn btn-large btn-primary" %>
+  </div>
+<% end %>
