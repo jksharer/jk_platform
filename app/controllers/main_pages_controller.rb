@@ -1,14 +1,13 @@
 class MainPagesController < ApplicationController
+  include ApplicationHelper
   before_action :authorize, only: [ :home, :about ]  
 
   def home
-  	@roles = Role.all
-  	@users = User.all
-  	@departments = Department.order('name asc')
-
+    #取出所有已审批发布的公告
     @announcements = Announcement.where(workflow_state: "accepted").order('created_at DESC').
         page(params[:page]).per_page(8)
-    
+    #待审批公告
+    @being_reviews = needed_my_review("Announcement").paginate(page: params[:page], per_page: 5)
   end
 
   def about

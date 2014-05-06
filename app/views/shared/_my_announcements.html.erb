@@ -1,7 +1,7 @@
 <%= image_tag("my_announcements.gif",alt: "我的公告") %>
 <span class="head">我的公告</span>
 <hr>
-<%= will_paginate @announcements%>
+<%= will_paginate @announcements, :previous_label => '&#8592; ', :next_label => '&#8594;' %>
 <div class="table-responsive">
 <table class="table table-bordered table-hover table-condensed">
   <thead>
