@@ -1,6 +1,7 @@
 #encoding: utf-8
 module ApplicationHelper
 	include SessionsHelper
+	include ProjectsHelper
 
 	#初始化对象的审批流程
 	#每个审批有三个状态：
@@ -83,6 +84,18 @@ module ApplicationHelper
 				return "未审批"
 			when "current_review"
 				return "正在审批"	
+			when "high"
+				return "高"
+			when "medium"
+				return "中"
+			when "low"
+				return "低"										
+			when "normal"
+				return "正常"
+			when "delay"
+				return "延迟"
+			when "completed"
+				return "已完成"	
 			else                   
 				return "未知"	
 		end

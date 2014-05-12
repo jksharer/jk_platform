@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :roles, -> { uniq }, :join_table => 'users_roles'
 
-
   # 获取用户所拥有角色下的所有菜单权限
   def permissions
   	permissions = []
@@ -23,7 +22,8 @@ class User < ActiveRecord::Base
   end
 
   def one_level_menus
-  	permissions.find_all { |menu| menu.parent_menu.nil? }
+    Menu.where(parent_menu_id: nil).order('display_order asc').
+      find_all { |menu| permissions.include?(menu) }
   end
 
   # 获取用户某个一级菜单下的二级菜单权限

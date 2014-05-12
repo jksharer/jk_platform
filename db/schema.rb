@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140502163245) do
+ActiveRecord::Schema.define(version: 20140506095820) do
 
   create_table "agencies", force: true do |t|
     t.string   "name"
@@ -73,6 +73,22 @@ ActiveRecord::Schema.define(version: 20140502163245) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "projects", force: true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.string   "description"
+    t.integer  "department_id"
+    t.string   "priority",      default: "1"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "status",        default: "0"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "projects", ["department_id"], name: "index_projects_on_department_id"
+  add_index "projects", ["user_id"], name: "index_projects_on_user_id"
 
   create_table "reviews", force: true do |t|
     t.string   "model_type"

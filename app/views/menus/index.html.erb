@@ -25,7 +25,7 @@
       <% if menu.has_kids? %>
         <% menu.sub_menus.each do |sub_menu| %>
           <tr class="two_level">
-            <td><%= link_to "  -#{sub_menu.name}", edit_menu_path(sub_menu) %></td>
+            <td><%= link_to "  --#{sub_menu.name}", edit_menu_path(sub_menu) %></td>
             <td><%= sub_menu.url %></td>
             <td><%= menu.name %></td>
             <td><%= sub_menu.status == 1? "启用" : "停用" %></td>

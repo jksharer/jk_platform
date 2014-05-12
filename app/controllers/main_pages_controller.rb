@@ -8,6 +8,8 @@ class MainPagesController < ApplicationController
         page(params[:page]).per_page(8)
     #待审批公告
     @being_reviews = needed_my_review("Announcement").paginate(page: params[:page], per_page: 5)
+    #项目信息
+    @projects = Project.all.order("status asc")
   end
 
   def about

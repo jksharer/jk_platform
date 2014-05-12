@@ -1,5 +1,8 @@
 JkPlatform::Application.routes.draw do
 
+  get "mobile/index"
+  resources :projects
+
   root 'main_pages#home'
 
   resources :departments
@@ -26,4 +29,10 @@ JkPlatform::Application.routes.draw do
   match 'handle_workflow',    to: 'announcements#handle_workflow', via: 'get'
   match 'handle_review',      to: 'announcements#handle_review',   via: 'get'
   match 'being_reviewed',     to: 'announcements#being_reviewed',  via: 'get'
+
+
+  #Mobile part
+  get '/mobile/index'
+
+
 end

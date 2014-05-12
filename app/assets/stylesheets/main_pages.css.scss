@@ -4,7 +4,7 @@ div.span8 {
 	width: 60%;	
 
 	.left {
-		margin:5px;
+		margin-bottom:10px;
 		padding: 5px;
 		.pagination {
 			padding: 0;
@@ -17,11 +17,12 @@ div.span8 {
 }
 
 div.span4 {
+	// float: left;
 	margin-left: 61%;
 
 	.right {
-		margin:5px;
-		padding: 10px;		
+		margin-bottom:10px;
+		padding: 5px;		
 	}	
 }
 
@@ -35,4 +36,3 @@ div.span4 {
 	font-weight: bold;
 	color: blue;
 }
-
