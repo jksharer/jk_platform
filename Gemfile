@@ -6,12 +6,13 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.1.0'
 gem 'workflow', '1.1.0'
 gem 'bootstrap-sass', '3.1.1'
 gem 'sprockets', '=2.11.0'
 gem 'sass-rails', '4.0.1'
 gem 'uglifier', '2.1.1'
+gem 'tzinfo-data', platforms: [:mingw, :mswin]
 gem 'coffee-rails', '4.0.1'
 gem 'jquery-rails', '3.1.0'
 gem 'turbolinks', '1.1.1'
@@ -23,6 +24,7 @@ gem 'bootstrap-will_paginate', '0.0.10'
 gem 'bootstrap-datepicker-rails'
 gem 'enumerize'
 gem 'twitter_ratchet_rails'
+gem 'spring', group: :development
 
 group :development, :test do
   gem 'sqlite3', '1.3.8'
