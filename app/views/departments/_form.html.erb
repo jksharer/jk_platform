@@ -1,24 +1,29 @@
-<div class="row">
-<div class="span6 offset3"> 
-<%= form_for(@department) do |f| %>
+<%= form_for(@department, html: { class: "form-horizontal", role: "form" }) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
 
-  <div class="field">
-    <%= f.label :name, "部门名称" %><br>
-    <%= f.text_field :name, class: "form-control" %>
+  <div class="form-group">
+    <%= f.label :name, "部门名称", class: "col-sm-2 control-label" %>
+    <div class="col-sm-8">
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :description, "描述" %><br>
-    <%= f.text_field :description, class: "form-control" %>
+
+  <div class="form-group">
+    <%= f.label :description, "描述", class: "col-sm-2 control-label" %>
+    <div class="col-sm-8">
+      <%= f.text_field :description, class: "form-control" %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :parent_department, "上级部门" %>
-    <%= f.select(:parent_department, Department.all.map { |dept| dept.name },
-      { prompt: "选择部门或机构" },{ class: "form-control" }) %>
+
+  <div class="form-group">
+    <%= f.label :parent_department, "上级部门", class: "col-sm-2 control-label" %>
+    <div class="col-sm-8">
+      <%= f.select(:parent_department, Department.all.map { |dept| dept.name },
+        { prompt: "选择部门或机构" },{ class: "form-control" }) %>
+    </div>
   </div>
-  <div class="actions">
+
+  <div class="col-sm-offset-2 col-sm-4">
     <%= f.submit "保  存", class: "btn btn-large btn-primary" %>
   </div>
 <% end %>
-</div>
-</div>

@@ -1,7 +1,8 @@
 <h1>所有部门</h1>
 
-<%= link_to '新部门', new_department_path, class: "btn btn-large btn-primary" %>
-<table class="table table-bordered">
+<%= link_to '新部门', {}, :href => "#", :class => "btn btn-large btn-primary", :remote => true,
+  :onclick => "openNewWin('#{new_department_path}')" %>
+<table class="table table-bordered" id="depts-table">
   <thead>
     <tr>
       <th>部门名称</th>
@@ -16,12 +17,15 @@
   <tbody>
     <% @departments.each do |department| %>
       <tr>
-        <td><%= link_to department.name, edit_department_path(department) %></td>
+        <td><%= link_to department.name, {}, :href => "#", :remote => true,
+          :onclick => "openNewWin('#{edit_department_path(department)}')" %>
+        </td>
         <td><%= department.description %></td>
         <td><%= department.agency.name %></td>
         <td><%= department.parent_department.nil?? "所属机构" : department.parent_department.name %></td>
         <td><%= department.sub_departments.size %></td>
-        <td><%= link_to 'Destroy', department, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', department, method: :delete, 
+          data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

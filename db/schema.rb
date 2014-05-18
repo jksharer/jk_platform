@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140506095820) do
+ActiveRecord::Schema.define(version: 20140516040715) do
 
   create_table "agencies", force: true do |t|
     t.string   "name"
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(version: 20140506095820) do
     t.integer  "parent_menu_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "controller"
+    t.string   "action"
   end
 
   create_table "menus_roles", id: false, force: true do |t|

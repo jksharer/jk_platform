@@ -10,9 +10,11 @@ class ProceduresController < ApplicationController
 
   def new
     @procedure = Procedure.new
+    render layout: 'empty'
   end
 
   def edit
+    render layout: 'empty'
   end
 
   def create

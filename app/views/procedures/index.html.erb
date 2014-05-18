@@ -1,6 +1,7 @@
 <h1>自定义流程管理</h1>
 
-<%= link_to '新增流程', new_procedure_path, class: "btn btn-large btn-primary" %>
+<%= link_to '新增流程', {}, :href => "#", :class => "btn btn-large btn-primary", :remote => true,
+  :onclick => "openNewWin('#{new_procedure_path}')" %>
 <table class="table">
   <thead>
     <tr>
@@ -14,7 +15,9 @@
   <tbody>
     <% @procedures.each do |procedure| %>
       <tr>
-        <td><%= link_to procedure.name, procedure %></td>
+        <td><%= link_to procedure.name, {}, :href => "#",
+          :onclick => "openNewWin('#{procedure_path(procedure)}')" %></td>
+        }
         <td><%= procedure.steps.map { |step| step.user.username }.join('->') %></td>
         <td><%= link_to 'Edit', edit_procedure_path(procedure) %></td>
         <td><%= link_to 'Destroy', procedure, method: :delete, 

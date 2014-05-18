@@ -7,7 +7,7 @@ class Menu < ActiveRecord::Base
 	validates :url, presence: true
 	validates :status, presence: true, inclusion: { in: [1, 0] }
 	validates :display_order, numericality: { greater_than: 0 }
-
+	
 
 	def is_one_level?
 		self.parent_menu_id.nil?

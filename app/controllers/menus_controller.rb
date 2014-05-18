@@ -7,13 +7,16 @@ class MenusController < ApplicationController
   end
 
   def show
+    render layout: 'empty'
   end
 
   def new
     @menu = Menu.new
+    render layout: 'empty'
   end
 
   def edit
+    render layout: 'empty'
   end
 
   def create
@@ -26,7 +29,7 @@ class MenusController < ApplicationController
         format.json { render action: 'show', 
           status: :created, location: @menu }
       else
-        format.html { render action: 'new' }
+        format.html { render action: 'new', layout: 'empty' }
         format.json { render json: @menu.errors, 
           status: :unprocessable_entity }
       end
@@ -40,7 +43,7 @@ class MenusController < ApplicationController
           notice: 'Menu was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: 'edit', layout: 'empty' }
         format.json { render json: @menu.errors, 
           status: :unprocessable_entity }
       end
@@ -61,8 +64,8 @@ class MenusController < ApplicationController
     end
 
     def menu_params
-      ps = params.require(:menu).permit(:name, :url, :parent_menu, :status, :display_order)
-      ps[:parent_menu] = Menu.find_by(name: ps[:parent_menu])
-      return ps
+      params.require(:menu).permit(:name, :url, :controller, :action, :parent_menu_id, :status, :display_order)
+      # ps[:parent_menu] = Menu.find_by(name: ps[:parent_menu])
+      # return ps
     end
 end

@@ -27,8 +27,8 @@
     <%= f.label :department_id, "所属部门", class: "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.select(:department_id, options_for_select(
-      Department.all.map { |dept| [dept.name, dept.id] }),
-      {}, { class: "form-control" }) %>  
+        Department.all.map { |dept| [dept.name, dept.id] }),
+        {}, { class: "form-control" }) %>  
     </div>
   </div>
 

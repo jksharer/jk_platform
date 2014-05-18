@@ -7,13 +7,16 @@ class AgenciesController < ApplicationController
   end
 
   def show
+    render layout: 'empty'
   end
 
   def new
     @agency = Agency.new
+    render layout: 'empty'
   end
 
   def edit
+    render layout: 'empty'
   end
 
   def create
@@ -26,7 +29,7 @@ class AgenciesController < ApplicationController
         format.json { render action: 'show', 
           status: :created, location: @agency }
       else
-        format.html { render action: 'new' }
+        format.html { render action: 'new', layout: 'empty' }
         format.json { render json: @agency.errors, 
           status: :unprocessable_entity }
       end

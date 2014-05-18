@@ -17,6 +17,13 @@ class AnnouncementsController < ApplicationController
       @announcements = Announcement.where(conditions).order('created_at DESC').
         page(params[:page]).per_page(10)
       @scope = "mine"
+    end
+    respond_to do |format|
+      format.js
+      format.json
+      format.html          
+      format.html.phone    
+      format.html.tablet   
     end  
   end
 
@@ -37,6 +44,7 @@ class AnnouncementsController < ApplicationController
 
   def new
     @announcement = Announcement.new
+    render layout: 'empty'
   end
 
   def edit

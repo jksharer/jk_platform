@@ -1,6 +1,6 @@
 <h1>通知公告</h1>
-
-<%= link_to '新公告', new_announcement_path, class: "btn btn-large btn-primary new_button" %>
+<a href="#" class="btn btn-large btn-primary new_button" 
+  onclick="openNewWin('<%= new_announcement_path %>')">新公告</a>  
 <%= link_to '所有公告', announcements_path %> | 
 <%= link_to '我发起的', announcements_url(:conditions => { :user_id => current_user }) %> |
 <%= link_to '待审批', being_reviewed_path %>

@@ -1,4 +1,5 @@
-<%= link_to '新 增', new_agency_path, class:"btn btn-primary btn-large" %>
+<%= link_to "新机构", {}, :href => "#", :class => "btn btn-large btn-primary new_button", :remote => true,
+  :onclick => "openNewWin('#{new_agency_path}')" %>  
 <table class="table table-striped table-hover">
   <thead>
     <tr>
@@ -12,7 +13,9 @@
   <tbody>
     <% @agencies.each do |agency| %>
       <tr>
-        <td><%= link_to agency.name, edit_agency_path(agency) %></td>
+        <td><%= link_to agency.name, {}, :href => "#", :remote => true,
+          :onclick => "openNewWin('#{edit_agency_path(agency)}')" %>
+        </td>
         <td><%= agency.description %></td>
         <td><%= agency.departments.count %></td>
         <td><%= agency.users.count %></td>

@@ -7,13 +7,16 @@ class DepartmentsController < ApplicationController
   end
 
   def show
+    render layout: 'empty'
   end
 
   def new
     @department = Department.new
+    render layout: 'empty'
   end
 
   def edit
+    render layout: 'empty'
   end
 
   def create
@@ -28,7 +31,7 @@ class DepartmentsController < ApplicationController
         format.json { render action: 'show', 
           status: :created, location: @department }
       else
-        format.html { render action: 'new' }
+        format.html { render action: 'new', layout: 'empty' }
         format.json { render json: @department.errors, status: :unprocessable_entity }
       end
     end
@@ -41,7 +44,7 @@ class DepartmentsController < ApplicationController
           notice: 'Department was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: 'edit', layout: 'empty' }
         format.json { render json: @department.errors, status: :unprocessable_entity }
       end
     end
@@ -55,6 +58,7 @@ class DepartmentsController < ApplicationController
     end
     @department.destroy
     respond_to do |format|
+      format.js 
       format.html { redirect_to departments_url }
       format.json { head :no_content }
     end

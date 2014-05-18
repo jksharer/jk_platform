@@ -28,7 +28,6 @@ class User < ActiveRecord::Base
 
   # 获取用户某个一级菜单下的二级菜单权限
 	def sub_menus(parent_menu)
-		parent_menu.sub_menus & permissions
+		(parent_menu.sub_menus & permissions).sort { |ma, mb| ma.display_order <=> mb.display_order }
 	end  
-
 end

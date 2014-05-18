@@ -1,8 +1,12 @@
+#encoding: UTF-8
 class MainPagesController < ApplicationController
   include ApplicationHelper
   before_action :authorize, only: [ :home, :about ]  
+  before_action :set_side_menus
 
   def home
+    # @two_level_menus = current_user.sub_menus(current_user.one_level_menus.first)
+
     #取出所有已审批发布的公告
     @announcements = Announcement.where(workflow_state: "accepted").order('created_at DESC').
         page(params[:page]).per_page(8)
@@ -10,6 +14,14 @@ class MainPagesController < ApplicationController
     @being_reviews = needed_my_review("Announcement").paginate(page: params[:page], per_page: 5)
     #项目信息
     @projects = Project.all.order("status asc")
+
+    respond_to do |format|
+      format.json
+      format.html
+      format.js          
+      format.html.phone    
+      format.html.tablet   
+    end
   end
 
   def about
@@ -41,5 +53,9 @@ class MainPagesController < ApplicationController
   	user.save!
   	flash[:notice] = "the password has successfully updated."
   	redirect_to my_path		
+  end
+
+  def set_side_menus
+    @two_level_menus = current_user.sub_menus(Menu.find_by(name: "工作台"))      
   end
 end

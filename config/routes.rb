@@ -1,8 +1,4 @@
 JkPlatform::Application.routes.draw do
-
-  get "mobile/index"
-  resources :projects
-
   root 'main_pages#home'
 
   resources :departments
@@ -14,6 +10,7 @@ JkPlatform::Application.routes.draw do
   resources :announcements
   resources :steps
   resources :procedures
+  resources :projects
   
   match '/login',  to: 'sessions#new',        via: 'get'
   match '/logout', to: 'sessions#destroy',    via: 'delete'
@@ -30,9 +27,7 @@ JkPlatform::Application.routes.draw do
   match 'handle_review',      to: 'announcements#handle_review',   via: 'get'
   match 'being_reviewed',     to: 'announcements#being_reviewed',  via: 'get'
 
-
-  #Mobile part
-  get '/mobile/index'
-
+  #Ajax
+  match '/get_submenus',      to: 'application#get_submenus',      via: 'get'
 
 end

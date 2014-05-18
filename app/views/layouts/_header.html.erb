@@ -2,21 +2,8 @@
 	<%= link_to 'JK-Platform', "#", id: "logo" %>
   
   <ul id="nav-left" class="nav nav-pills">
-    <% current_user.one_level_menus.each do |parent| %>
-      <% if current_user.sub_menus(parent).count > 0 %>
-        <li class="dropdown one-level">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <%= parent.name %><span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-             <% current_user.sub_menus(parent).each do |sub| %> 
-               <li><%= link_to sub.name, sub.url %></li>             
-             <% end %>
-          </ul>
-        </li>   
-      <% elsif %>
-        <li><%= link_to parent.name, parent.url %></li>
-      <% end %>
+    <% current_user.one_level_menus.each do |parent| %>             
+      <li><%= link_to parent.name, "#{parent.url}?parent=#{parent.name}" %></li>
     <% end %>
   </ul>	
 
