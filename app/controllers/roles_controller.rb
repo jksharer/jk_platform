@@ -4,6 +4,10 @@ class RolesController < ApplicationController
 
   def index
     @roles = Role.all
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def show
@@ -21,6 +25,10 @@ class RolesController < ApplicationController
 
   def edit
     @menus = Menu.where(parent_menu_id: nil).order('display_order asc')
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def create
@@ -28,11 +36,18 @@ class RolesController < ApplicationController
     @role.menu_ids = params[:menus_of_role]
     respond_to do |format|
       if @role.save
+        format.js {
+          flash.now[:notice] = 'Role was successfully created.'
+          @roles = Role.all     
+        }
         format.html { redirect_to roles_url, 
           notice: 'Role was successfully created.' }
         format.json { render action: 'show', 
           status: :created, location: @role }
       else
+        format.js {
+          @menus = Menu.where(parent_menu_id: nil).order('display_order asc')  
+        }
         format.html { render action: 'new' }
         format.json { render json: @role.errors, 
           status: :unprocessable_entity }
@@ -44,10 +59,19 @@ class RolesController < ApplicationController
     @role.menu_ids = params[:menus_of_role]
     respond_to do |format|
       if @role.update(role_params)
+        format.js {
+          flash.now[:notice] = 'Role was successfully updated.'
+          @roles = Role.all
+          render 'create'  
+        }
         format.html { redirect_to roles_url, 
           notice: 'Role was successfully updated.' }
         format.json { head :no_content }
       else
+        format.js {
+          @menus = Menu.where(parent_menu_id: nil).order('display_order asc')  
+          render 'create'
+        }
         format.html { render action: 'edit' }
         format.json { render json: @role.errors, 
           status: :unprocessable_entity }
@@ -60,6 +84,10 @@ class RolesController < ApplicationController
     @role.users.clear
     @role.destroy
     respond_to do |format|
+      format.js {
+        flash.now[:notice] = "the role #{@role.name} has been deleted."
+        @roles = Role.all
+      }
       format.html { redirect_to roles_url }
       format.json { head :no_content }
     end

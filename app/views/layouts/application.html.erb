@@ -9,9 +9,12 @@
 	  <%= csrf_meta_tags %>
 	  <script type="text/javascript">
 	  	$( document ).ready(function() {
-				// $( "a#new_role" ).click(function( event ) {
-				// 	alert("Thanks for visiting!");
-					
+				// $("a.two_level").click(function( event ) {
+				// 	alert(this.id);
+				// 	event.preventDefault();
+				// 	$.get(this.id, function() {
+				// 		alert("it's done!");
+				// 	});
 				// });
 			});
 	  </script>
@@ -27,14 +30,7 @@
 
 				<!-- 内容区 -->
 				<div class="col-md-10" id="content">
-						<% if notice %>  
-			  			<p id="notice"><%= notice %></p>
-						<% end %>
-						
-						<% if flash[:alert] %>
-							<p id="alert"><%= flash[:alert] %></p>
-						<% end %>
-						
+						<%= render 'shared/notice' %>
 						<%= yield %>	
 				</div>
 			</div>

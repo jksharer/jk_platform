@@ -10,10 +10,14 @@ class ApplicationController < ActionController::Base
  
   def set_two_level_menus
     if params[:parent]
-      @two_level_menus = current_user.sub_menus(Menu.find_by(name: params[:parent]))  
+      @two_level_menus = current_user.sub_menus(Menu.find_by(name: params[:parent])) 
+      @current_menu = Menu.find_by(name: params[:parent]) 
     elsif params[:menu_id]
       # menu = Menu.find(params[:menu_id]).parent_menu
+      @current_menu = Menu.find(params[:menu_id])
       @two_level_menus = current_user.sub_menus(Menu.find(params[:menu_id]).parent_menu)
+    else
+      @current_menu = current_user.one_level_menus.first
     end
   end
 

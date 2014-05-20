@@ -17,7 +17,10 @@
 //= require_tree .
 //= require bootstrap-datepicker
 
-function openNewWin(url, title) {  
-    		window.open(url, title, 'height=500,width=800,top=100,left=200,
-    			toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')   
+function openNewWin(url, title) {
+	alert("Hello");  
+	window.open(url, title, 'height=500,width=800,top=100,left=200,
+		toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no');   
 }
+
+

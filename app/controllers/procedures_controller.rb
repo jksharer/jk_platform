@@ -3,18 +3,36 @@ class ProceduresController < ApplicationController
 
   def index
     @procedures = Procedure.all
+    respond_to do |format|
+      format.js
+      format.html
+    end    
   end
 
   def show
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def new
     @procedure = Procedure.new
-    render layout: 'empty'
+    respond_to do |format|
+      format.js
+      format.html {
+        render layout: 'empty'    
+      }
+    end
   end
 
   def edit
-    render layout: 'empty'
+    respond_to do |format|
+      format.js
+      format.html {
+        render layout: 'empty'    
+      }
+    end
   end
 
   def create

@@ -1,6 +1,7 @@
+<%= render 'shared/notice' %>
 <h1>角色和权限</h1>
 
-<%= link_to '新角色', new_role_path, class: "btn btn-large btn-primary" %>
+<%= link_to '新角色', new_role_path, remote: true, class: "btn btn-large btn-primary", id: "new_role" %>
 <table class="table table-bordered">
   <thead>
     <tr>
@@ -14,12 +15,12 @@
   <tbody>
     <% @roles.each do |role| %>
       <tr>
-        <td><%= link_to role.name, edit_role_path(role) %></td>
-        <td><%= link_to "#{role.menus.size}个菜单权限", edit_role_path(role) %></td>
+        <td><%= link_to role.name, edit_role_path(role), remote: true %></td>
+        <td><%= link_to "#{role.menus.size}个菜单权限", edit_role_path(role), remote: true %></td>
         <td>
           <%= role.users.map { |user| user.username }.join(',') %>
         </td>
-        <td><%= link_to 'Destroy', role, method: :delete, 
+        <td><%= link_to 'Destroy', role, method: :delete, remote: true,
           data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

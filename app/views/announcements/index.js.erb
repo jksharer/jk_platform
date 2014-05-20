@@ -1,2 +1,1 @@
-alert("this is index.js.erb")
-$('#content').html("Hello");
+$( "div#content" ).html('<%= escape_javascript(render("announcements/index")) %>')

@@ -19,7 +19,7 @@ class AnnouncementsController < ApplicationController
       @scope = "mine"
     end
     respond_to do |format|
-      format.js
+      format.js 
       format.json
       format.html          
       format.html.phone    
