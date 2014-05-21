@@ -3,21 +3,29 @@
   <span id="app_info">基于Ruby on Rails的企业级应用开发平台</span>
   <hr>  
 	<p id="welcome">欢迎来到JK-EADP，请输入您的用户名和密码</p>
-  <% if notice %>
-    <p id="notice"><%= notice %></p>
-  <% end %>
-  <% if flash[:alert] %>
-    <p class="alert"><%= flash[:alert] %></p>
-  <% end %>
+  <%= render 'shared/notice' %>
   <div id="login_form">
-    <%= form_for(:session, url: sessions_path) do |f| %>
-      <%= f.label :username, "用户名" %>
-        
+    <%= form_for(:session, url: sessions_path, html: { class: "form-horizontal", role: "form" }) do |f| %>
+      <div class="form-group">
+        <%= f.label :username, "用户名", class: "col-sm-2 control-label" %>
+        <div class="col-sm-8">
+          <%= f.text_field :username, class: "form-control" %>      
+        </div>
+      </div>
       
-      <%= f.label :password, "密  码" %>
-      <%= f.password_field :password, class: "form-control" %>
+      <div class="form-group">
+        <%= f.label :password, "密  码", class: "col-sm-2 control-label" %>
+        <div class="col-sm-8">
+          <%= f.password_field :password, class: "form-control" %>    
+        </div>  
+      </div>
       
-      <%= f.submit "登  陆", class: "btn btn-lg btn-primary" %>
+      <div class="form-group">
+        <label class="col-sm-2 control-label"></label>
+        <div class="col-sm-4">
+          <%= f.submit "登  陆", class: "btn btn-lg btn-primary" %>  
+        </div>
+      </div>
   <% end %>  
   </div>
 </div>

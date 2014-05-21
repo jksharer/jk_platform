@@ -2,7 +2,7 @@
 class MainPagesController < ApplicationController
   include ApplicationHelper
   before_action :authorize, only: [ :home, :about ]  
-  before_action :set_side_menus
+  # before_action :set_side_menus
 
   def home
     # @two_level_menus = current_user.sub_menus(current_user.one_level_menus.first)
@@ -31,7 +31,7 @@ class MainPagesController < ApplicationController
   	@current_user = current_user
   end
 
-  def change_passwoesrd
+  def change_password
   	@current_user = current_user
   end
 
@@ -55,7 +55,7 @@ class MainPagesController < ApplicationController
   	redirect_to my_path		
   end
 
-  def set_side_menus
-    @two_level_menus = current_user.sub_menus(Menu.find_by(name: "工作台"))      
-  end
+  # def set_side_menus
+  #   @two_level_menus = current_user.sub_menus(Menu.find_by(name: "工作台"))      
+  # end
 end

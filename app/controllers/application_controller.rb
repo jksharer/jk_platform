@@ -9,15 +9,21 @@ class ApplicationController < ActionController::Base
   before_action :set_two_level_menus
  
   def set_two_level_menus
-    if params[:parent]
-      @two_level_menus = current_user.sub_menus(Menu.find_by(name: params[:parent])) 
+    #点击顶部导航栏一级菜单
+    if params[:parent]  
       @current_menu = Menu.find_by(name: params[:parent]) 
+      # @two_level_menus = current_user.sub_menus(Menu.find_by(name: params[:parent])) 
+      @two_level_menus = current_user.sub_menus(@current_menu) 
+    #点击左侧导航二级菜单  
     elsif params[:menu_id]
-      # menu = Menu.find(params[:menu_id]).parent_menu
       @current_menu = Menu.find(params[:menu_id])
-      @two_level_menus = current_user.sub_menus(Menu.find(params[:menu_id]).parent_menu)
+      @two_level_menus = current_user.sub_menus(@current_menu.parent_menu)
+    #从其他途径访问系统  
     else
-      @current_menu = current_user.one_level_menus.first
+      unless current_user.nil?
+        @current_menu = current_user.one_level_menus.first
+        @two_level_menus = current_user.sub_menus(@current_menu)
+      end
     end
   end
 

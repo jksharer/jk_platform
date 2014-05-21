@@ -1,8 +1,4 @@
-// Place all the styles related to the Session controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-div.log_page {
+div#login_page {
 	margin: 10% 30%;
 }
 
@@ -18,5 +14,6 @@ div.log_page {
 
 #welcome {
 	margin-top: 2em;
+	margin-bottom: 2em;
 	text-align: center;
 }

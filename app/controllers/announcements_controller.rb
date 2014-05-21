@@ -44,7 +44,10 @@ class AnnouncementsController < ApplicationController
 
   def new
     @announcement = Announcement.new
-    render layout: 'empty'
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def edit
