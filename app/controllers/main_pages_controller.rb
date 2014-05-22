@@ -2,7 +2,6 @@
 class MainPagesController < ApplicationController
   include ApplicationHelper
   before_action :authorize
-  # before_action :set_side_menus
 
   def home
     #取出所有已审批发布的公告
@@ -26,6 +25,10 @@ class MainPagesController < ApplicationController
 
   def my
   	@current_user = current_user
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def change_password
@@ -36,23 +39,28 @@ class MainPagesController < ApplicationController
   	password = params[:password]
   	password_confirmation = params[:password_confirmation]			
   	if password.nil? || password.length < 6
-  		flash[:notice] = "the length of password must be greater than 6."
-  		redirect_to change_password_path
-  		return
+  		flash.now[:alert] = "the length of password must be greater than 6."
+  		respond_to do |format|
+        format.js { render 'change_password.js.erb' }
+        format.html
+      end 
   	elsif password != password_confirmation
-  		flash[:notice] = "the password does not equal confirmation."
-  		redirect_to change_password_path
-  		return
+  		flash.now[:alert] = "the password does not equal confirmation."
+  		respond_to do |format|
+        format.js { render 'change_password.js.erb' }
+        format.html { redirect_to change_password_path }
+      end
+    else 
+      user = current_user
+      user.password = password
+      user.password_confirmation = password_confirmation
+      user.for_updating = true
+      user.save!
+      flash.now[:notice] = "the password was successfully updated."
+      respond_to do |format|
+        format.js { render 'my.js.erb' }
+        format.html { redirect_to my_path }
+      end
   	end
-  	user = current_user
-  	user.password = password
-  	user.password_confirmation = password_confirmation
-  	user.save!
-  	flash[:notice] = "the password has successfully updated."
-  	redirect_to my_path		
   end
-
-  # def set_side_menus
-  #   @two_level_menus = current_user.sub_menus(Menu.find_by(name: "工作台"))      
-  # end
 end
