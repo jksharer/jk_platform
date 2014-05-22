@@ -4,34 +4,41 @@ class MenusController < ApplicationController
   
   def index
     @menus = Menu.where(parent_menu_id: nil).order('display_order asc')
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def show
-    render layout: 'empty'
+    
   end
 
   def new
     @menu = Menu.new
-    render layout: 'empty'
   end
 
   def edit
-    render layout: 'empty'
+    respond_to do |format|
+      format.js { render 'new.js.erb' }
+      format.html
+    end
   end
 
   def create
     @menu = Menu.new(menu_params)
-
     respond_to do |format|
       if @menu.save
+        format.js { 
+          @menus = Menu.where(parent_menu_id: nil).order('display_order asc')
+          flash.now[:notice] = 'Menu was successfully created.'
+          render 'index.js.erb' 
+        }
         format.html { redirect_to menus_url, 
           notice: 'Menu was successfully created.' }
-        format.json { render action: 'show', 
-          status: :created, location: @menu }
       else
+        format.js { render 'new.js.erb' }
         format.html { render action: 'new', layout: 'empty' }
-        format.json { render json: @menu.errors, 
-          status: :unprocessable_entity }
       end
     end
   end
@@ -39,22 +46,41 @@ class MenusController < ApplicationController
   def update
     respond_to do |format|
       if @menu.update(menu_params)
+        format.js {
+          @menus = Menu.where(parent_menu_id: nil).order('display_order asc') 
+          render 'new.js.erb' 
+        }
         format.html { redirect_to menus_url, 
           notice: 'Menu was successfully updated.' }
-        format.json { head :no_content }
       else
-        format.html { render action: 'edit', layout: 'empty' }
-        format.json { render json: @menu.errors, 
-          status: :unprocessable_entity }
+        format.js { render 'new.js.erb' }
+        format.html { render action: 'edit' }
       end
     end
   end
 
   def destroy
-    @menu.destroy
-    respond_to do |format|
-      format.html { redirect_to menus_url }
-      format.json { head :no_content }
+    @menus = Menu.where(parent_menu_id: nil).order('display_order asc')
+    if @menu.sub_menus.size > 0
+      respond_to do |format|
+        format.js { 
+          flash.now[:notice] = "The menu has sub menus, you can't delete it."
+          render 'index.js.erb'
+        }
+        format.html {
+          redirect_to menus_path, notice: "The menu has sub menus, you can't delete it."
+        }
+      end
+    else
+      @menu.roles.clear
+      @menu.destroy
+      respond_to do |format|
+        format.js {
+          flash.now[:notice] = "The menu #{@menu.name} deleted."
+          render 'index.js.erb'  
+        }
+        format.html { redirect_to menus_url }
+      end
     end
   end
 
@@ -65,7 +91,5 @@ class MenusController < ApplicationController
 
     def menu_params
       params.require(:menu).permit(:name, :url, :controller, :action, :parent_menu_id, :status, :display_order)
-      # ps[:parent_menu] = Menu.find_by(name: ps[:parent_menu])
-      # return ps
     end
 end

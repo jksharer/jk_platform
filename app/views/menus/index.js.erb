@@ -1,1 +1,4 @@
-$( "div#content" ).html('<%= escape_javascript(render("menus/index")) %>')
+$("div#content").html('<%= j render("menus/index") %>')
+<% if params[:parent] %>
+	$("div#side").html('<%= j render("layouts/side") %>')
+<% end %>

@@ -7,31 +7,38 @@ class AgenciesController < ApplicationController
   end
 
   def show
-    render layout: 'empty'
+    
   end
 
   def new
     @agency = Agency.new
-    render layout: 'empty'
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def edit
-    render layout: 'empty'
+    respond_to do |format|
+      format.js { render 'new.js.erb' }
+      format.html
+    end
   end
 
   def create
     @agency = Agency.new(agency_params)
-
     respond_to do |format|
       if @agency.save
+        format.js { 
+          flash.now[:notice] = 'Agency was successfully created.'
+          @agencies = Agency.order('name asc').page(params[:page]).per_page(5)     
+          render 'index.js.erb' 
+        }
         format.html { redirect_to agencies_path, 
           notice: 'Agency was successfully created.' }
-        format.json { render action: 'show', 
-          status: :created, location: @agency }
       else
+        format.js { render 'new.js.erb' }
         format.html { render action: 'new', layout: 'empty' }
-        format.json { render json: @agency.errors, 
-          status: :unprocessable_entity }
       end
     end
   end
@@ -39,12 +46,16 @@ class AgenciesController < ApplicationController
   def update
     respond_to do |format|
       if @agency.update(agency_params)
+        format.js { 
+          flash.now[:notice] = 'Agency was successfully updated.'
+          @agencies = Agency.order('name asc').page(params[:page]).per_page(5)     
+          render 'index.js.erb' 
+        }
         format.html { redirect_to agencies_path, 
           notice: 'Agency was successfully updated.' }
-        format.json { head :no_content }
       else
+        format.js { render 'new.js.erb' }
         format.html { render action: 'edit' }
-        format.json { render json: @agency.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -52,9 +63,11 @@ class AgenciesController < ApplicationController
   def destroy
     # 不允许删除机构
     respond_to do |format|
+      format.js {
+        flash.now[:notice] = "The rule is anyone CAN'T destroy Agency."
+      }
       format.html { redirect_to agencies_url, 
         notice: "The rule is anyone CAN'T destroy Agency." }
-      format.json { head :no_content }
     end
   end
 

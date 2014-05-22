@@ -1,9 +1,13 @@
-<h1>通知公告</h1>
-<%= link_to '新公告', new_announcement_path, remote: true, class: "btn btn-large btn-primary new_button", 
-  id: "new_button" %>
-<%= link_to '所有公告', announcements_path %> | 
-<%= link_to '我发起的', announcements_url(:conditions => { :user_id => current_user }) %> |
-<%= link_to '待审批', being_reviewed_path %>
+<div class="top-links">
+  <%= link_to '新公告', new_announcement_path, remote: true, class: "btn btn-large btn-primary new_button", 
+    id: "new_button" %>
+  <%= link_to '所有公告', announcements_path, remote: true %> | 
+  <%= link_to '我发起的', announcements_url(:conditions => { :user_id => current_user }), remote: true %> |
+  <%= link_to '待审批', being_reviewed_path, remote: true %>  
+</div>
+
+<%= render 'shared/notice' %>
+
 <div id="announcements_table">
   <table class="table">
     <thead>
@@ -19,7 +23,7 @@
     <tbody>
       <% @announcements.each do |announcement| %>
         <tr>
-          <td><%= link_to announcement.name, announcement %></td>
+          <td><%= link_to announcement.name, announcement, remote: true %></td>
           <td><%= announcement.user.username %></td>
           <td><%= announcement.content.truncate(30) %></td>
           <td><%= time_format(announcement.updated_at.getlocal) %></td>
@@ -29,10 +33,8 @@
           <% if @scope == "mine" %>
             <td>
               <% if announcement.current_state == "new" %>
-                <%= link_to 'Edit', edit_announcement_path(announcement) %> |
+                <%= link_to 'Edit', edit_announcement_path(announcement), remote: true %>  
               <% end %>  
-              <%= link_to 'Destroy', announcement, method: :delete, 
-                data: { confirm: 'Are you sure?' } %>
             </td>
           <% end %>
         </tr>

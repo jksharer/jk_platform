@@ -24,7 +24,6 @@ module SessionsHelper
       redirect_to login_url, notice: 'Please log in.'
       return
     end
-
     # 检查该操作是否在该用户的功能权限范围之内
 		check_if_in_permissions    
   end
@@ -38,5 +37,6 @@ module SessionsHelper
   	redirect_to login_url, 
   		notice: "Sorry, the current user does not have the permission, 
   							please use other user to access."	
+    return
   end
 end

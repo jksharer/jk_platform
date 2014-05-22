@@ -7,24 +7,13 @@
 	  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 	  <%= javascript_include_tag "custom", "data-turbolinks-track" => true %>
 	  <%= csrf_meta_tags %>
-	  <script type="text/javascript">
-	  	$( document ).ready(function() {
-				// $("a.two_level").click(function( event ) {
-				// 	alert(this.id);
-				// 	event.preventDefault();
-				// 	$.get(this.id, function() {
-				// 		alert("it's done!");
-				// 	});
-				// });
-			});
-	  </script>
 	</head>
 	<body>
 		<%= render 'layouts/header' %>
 		<div class="container <%= controller.controller_name %>">
-			<div class="row" id="side">
+			<div class="row">
 				<!-- 左侧边导航 -->
-				<div class="col-md-2">
+				<div class="col-md-2" id="side">
 					<%= render 'layouts/side' %>	
 				</div>
 

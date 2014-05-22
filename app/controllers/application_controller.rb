@@ -11,8 +11,7 @@ class ApplicationController < ActionController::Base
   def set_two_level_menus
     #点击顶部导航栏一级菜单
     if params[:parent]  
-      @current_menu = Menu.find_by(name: params[:parent]) 
-      # @two_level_menus = current_user.sub_menus(Menu.find_by(name: params[:parent])) 
+      @current_menu = Menu.find(params[:parent]) 
       @two_level_menus = current_user.sub_menus(@current_menu) 
     #点击左侧导航二级菜单  
     elsif params[:menu_id]

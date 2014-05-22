@@ -46,11 +46,12 @@ module ApplicationHelper
       sort { |a, b| a.step.view_order <=> b.step.view_order }
 	end
 
-	#获取当前需要我审批的对象，如通知公告
+	# 获取当前需要我审批的对象，如通知公告
 	def needed_my_review(model_type)
 		os = []
 		Review.where(state: "current_review", model_type: model_type).each do |review|
       if review.step.user == current_user
+      	puts "--------------#{review.model_type}--#{review.object_id}"
         os << Kernel.const_get(model_type).find(review.object_id)
       end
     end

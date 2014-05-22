@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  attr_accessor :for_updating           # 用于在更新用户信息时跳过密码验证
+
   has_secure_password
 
   belongs_to :agency
@@ -7,10 +9,15 @@ class User < ActiveRecord::Base
   has_many :announcements
 
   validates :username, presence: true, uniqueness: true, length: { maximum: 20 }
-  validates :password, length: { in: 3..20 }
+  validates :password, length: { in: 3..20 }, 
+    unless: Proc.new { |a| a.for_updating }
   validates :agency, presence: true
 
-  has_and_belongs_to_many :roles, -> { uniq }, :join_table => 'users_roles'
+  has_and_belongs_to_many :roles, -> { uniq }, :join_table => 'users_roles'   # user和role的组合必须唯一
+
+  def updating_userinfo
+
+  end
 
   # 获取用户所拥有角色下的所有菜单权限
   def permissions

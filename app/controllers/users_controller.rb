@@ -4,6 +4,10 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def show
@@ -11,40 +15,56 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def edit
+    respond_to do |format|
+      format.js { render 'new.js.erb' }
+      format.html
+    end
   end
 
   def create
     @user = User.new(user_params)
     @user.agency = current_user.agency
     @user.role_ids = params[:roles_of_user]
-
     respond_to do |format|
       if @user.save
-        format.html { redirect_to users_url, 
-          notice: 'User was successfully created.' }
-        format.json { render action: 'show', 
-          status: :created, location: @user }
+        flash.now[:notice] = 'User was successfully created.'
+        format.js { 
+          @users = User.all
+          render 'index' 
+        }
+        format.html { redirect_to users_url }
       else
+        format.js { render 'new.js.erb' }
         format.html { render action: 'new' }
-        format.json { render json: @user.errors, 
-          status: :unprocessable_entity }
       end
     end
   end
 
   def update
     @user.role_ids = params[:roles_of_user]
+    @user.for_updating = true
     respond_to do |format|
       if @user.update(user_params)
+        format.js { 
+          flash.now[:notice] = 'User was successfully updated.'
+          @users = User.all
+          render 'index.js.erb' 
+        }
         format.html { redirect_to users_url, 
-          notice: 'User was successfully updated. ' }
-        format.json { head :no_content }
+          notice: 'User was successfully updated.' }
       else
+        format.js { 
+          params[:from] = "edit"
+          render 'new.js.erb' 
+        }
         format.html { render action: 'edit' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -53,8 +73,12 @@ class UsersController < ApplicationController
     @user.roles.clear
     @user.destroy
     respond_to do |format|
+      format.js {  
+        @users = User.all
+        flash.now[:notice] = "User '#{@user.username}' deleted successfully."
+        render 'index.js.erb' 
+      }
       format.html { redirect_to users_url }
-      format.json { head :no_content }
     end
   end
 
@@ -64,9 +88,6 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      ps = params.require(:user).
-        permit(:username, :password, :password_confirmation, :department)
-      ps[:department] = Department.find_by(name: ps[:department], agency: current_user.agency)
-      return ps
+      params.require(:user).permit(:username, :password, :password_confirmation, :department_id)
     end
 end

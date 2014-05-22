@@ -3,7 +3,7 @@
   
   <ul id="nav-left" class="nav nav-pills">
     <% current_user.one_level_menus.each do |parent| %>             
-      <li><%= link_to parent.name, "#{parent.url}?parent=#{parent.name}" %></li>
+      <li><%= link_to parent.name, "#{parent.url}?parent=#{parent.id}", remote: true %></li>
     <% end %>
   </ul>	
 

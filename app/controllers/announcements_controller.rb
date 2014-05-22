@@ -2,6 +2,7 @@ class AnnouncementsController < ApplicationController
   include ApplicationHelper
   require 'will_paginate/array'
 
+  before_action :authorize
   before_action :set_announcement, only: [ :show, :edit, :update, :destroy, 
     :handle_workflow, :handle_review ]
 
@@ -20,7 +21,6 @@ class AnnouncementsController < ApplicationController
     end
     respond_to do |format|
       format.js 
-      format.json
       format.html          
       format.html.phone    
       format.html.tablet   
@@ -40,17 +40,29 @@ class AnnouncementsController < ApplicationController
   def show
     @reviews = Review.where(model_type: "Announcement", object: @announcement).
       sort { |a, b| a.step.view_order <=> b.step.view_order }
-  end
-
-  def new
-    @announcement = Announcement.new
+    if params[:from] == "home"
+      @announcements = needed_my_review("Announcement").paginate(page: params[:page], per_page: 10)
+    end
     respond_to do |format|
+      puts "#{params[:from]}"
       format.js
       format.html
     end
   end
 
+  def new
+    @announcement = Announcement.new
+    respond_to do |format|
+      format.js 
+      format.html
+    end
+  end
+
   def edit
+    respond_to do |format|
+      format.js { render 'new.js.erb' }
+      format.html
+    end
   end
 
   def create
@@ -59,15 +71,21 @@ class AnnouncementsController < ApplicationController
     puts params[:commit]
     respond_to do |format|
       if @announcement.save
-        # if params[:commit] == "save_and_submit"
-        if params[:save_and_submit]
-          redirect_to handle_workflow_path(id: @announcement.id, event: "submit!")
-          return
-        end
-        format.html { redirect_to @announcement, 
-          notice: 'Announcement was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @announcement }
+        format.js {
+          @reviews = Review.where(model_type: "Announcement", object: @announcement).
+            sort { |a, b| a.step.view_order <=> b.step.view_order }
+        }
+        format.html {
+          # 点击"保存和提交
+          # if params[:save_and_submit]
+          #   redirect_to handle_workflow_path(id: @announcement.id, event: "submit!")
+          #   return
+          # end
+          redirect_to @announcement, 
+          notice: 'Announcement was successfully created.'  
+        }
       else
+        format.js
         format.html { render action: 'new' }
         format.json { render json: @announcement.errors, status: :unprocessable_entity }
       end
@@ -77,11 +95,14 @@ class AnnouncementsController < ApplicationController
   def update
     respond_to do |format|
       if @announcement.update(announcement_params)
+        format.js { 
+          flash.now[:notice] = "It's been updated."
+          render 'create.js.erb' 
+        }
         format.html { redirect_to @announcement, notice: 'Announcement was successfully updated.' }
-        format.json { head :no_content }
       else
+        format.js { render 'create.js.erb' }  
         format.html { render action: 'edit' }
-        format.json { render json: @announcement.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -89,8 +110,14 @@ class AnnouncementsController < ApplicationController
   def destroy
     @announcement.destroy
     respond_to do |format|
+      format.js {
+        flash.now[:notice] = "It's been deleted."
+        @announcements = Announcement.where(user_id: current_user).order('created_at DESC').
+          page(params[:page]).per_page(10)
+        @scope = "mine"
+        render 'index.js.erb'
+      }
       format.html { redirect_to announcements_url }
-      format.json { head :no_content }
     end
   end
 
@@ -98,6 +125,11 @@ class AnnouncementsController < ApplicationController
     method = @announcement.method(params[:event].to_sym)
     method.call
     respond_to do |format|
+      format.js {
+        @reviews = Review.where(model_type: "Announcement", object: @announcement).
+          sort { |a, b| a.step.view_order <=> b.step.view_order }
+        render 'show.js.erb'
+      }
       format.html { redirect_to @announcement, 
         notice: "#{method.name}  has called." }
       format.json { head :no_content }
@@ -108,18 +140,24 @@ class AnnouncementsController < ApplicationController
     review = Review.find(params[:review])
     review.state = params[:judge]
     review.save
-    if  review.state == "rejected"
-      redirect_to handle_workflow_path(id: @announcement.id, event: "reject!")
-      return
+    @reviews = Review.where(model_type: "Announcement", object: @announcement).
+          sort { |a, b| a.step.view_order <=> b.step.view_order }
+    if review.state == "rejected"
+      @announcement.method(:reject!).call
+    else 
+      # 获取该通知公告的所有审批状态，如果全部都通过则设置通知公告为审批通过
+      states = Review.where(model_type: "Announcement", object: @announcement).pluck(:state)
+      if states.count("accepted") == states.size  
+        @announcement.method(:accept!).call
+      else 
+        #如果没有拒绝，而且审批没有结束，则设置下一个审批状态为当前审批
+        set_next_review_to_current(@announcement)
+      end
     end
-    states = Review.where(model_type: "Announcement", object: @announcement).pluck(:state)
-    if states.count("accepted") == states.size
-      redirect_to handle_workflow_path(id: @announcement.id, event: "accept!")
-      return
+    respond_to do |format|
+      format.js { render 'show.js.erb' }
+      format.html { redirect_to @announcement }  
     end
-    #如果没有拒绝，而且审批没有结束，则设置下一个审批状态为当前审批
-    set_next_review_to_current(@announcement)
-    redirect_to @announcement
   end
 
   private

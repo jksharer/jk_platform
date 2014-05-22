@@ -1,4 +1,5 @@
 class ProceduresController < ApplicationController
+  before_action :authorize
   before_action :set_procedure, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -28,7 +29,7 @@ class ProceduresController < ApplicationController
 
   def edit
     respond_to do |format|
-      format.js
+      format.js 
       format.html {
         render layout: 'empty'    
       }
@@ -37,9 +38,9 @@ class ProceduresController < ApplicationController
 
   def create
     @procedure = Procedure.new(procedure_params)
-
     respond_to do |format|
       if @procedure.save
+        format.js { render 'show.js.erb' }
         format.html { redirect_to @procedure, 
           notice: 'Procedure was successfully created.' }
         format.json { render action: 'show', status: :created, location: @procedure }

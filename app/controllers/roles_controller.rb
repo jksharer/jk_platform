@@ -16,7 +16,6 @@ class RolesController < ApplicationController
   def new
     @role = Role.new
     @menus = Menu.where(parent_menu_id: nil).order('display_order asc')
-    puts "It's coming from AJAX"
     respond_to do |format|
       format.js
       format.html
@@ -42,15 +41,11 @@ class RolesController < ApplicationController
         }
         format.html { redirect_to roles_url, 
           notice: 'Role was successfully created.' }
-        format.json { render action: 'show', 
-          status: :created, location: @role }
       else
         format.js {
           @menus = Menu.where(parent_menu_id: nil).order('display_order asc')  
         }
         format.html { render action: 'new' }
-        format.json { render json: @role.errors, 
-          status: :unprocessable_entity }
       end
     end
   end

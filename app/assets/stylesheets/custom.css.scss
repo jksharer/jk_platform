@@ -124,15 +124,11 @@ div.container {
 
 input, textarea, select, .uneditable-input {
   margin-bottom: 15px;
-  @include box_sizing;
+  // @include box_sizing;
 }
 
 input {
   height: auto !important;
-}
-
-.field {
-	margin-bottom: 10px;
 }
 
 #error_explanation {

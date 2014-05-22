@@ -23,4 +23,3 @@ function openNewWin(url, title) {
 		toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no');   
 }
 
-
